@@ -1,18 +1,39 @@
-TCP SYN Flood Incident Report
+# TCP SYN Flood Incident Report
 
-Short description
-Analysis of a TCP SYN Flood (DoS) attack that caused the company web server to become unresponsive by flooding it with incomplete TCP connection requests.
+> **Category:** Network Security • **Attack Type:** Denial of Service (DoS)  
+> **Objective:** Analyze and document a SYN Flood attack detected on the company web server.  
 
-Evidence (summary)
-Packet captures show repeated SYN packets to port 443 from 203.0.113.0 with no completing ACK.
-Server replied SYN-ACK repeatedly and accumulated half-open connections, causing timeouts and 504 errors.
+---
 
-Impact
-Website unavailable / connection timeout for users and employees.
-Lost productivity and potential revenue; reputational damage risk.
+## Overview
+A sudden spike in **TCP SYN packets** from IP `203.0.113.0` overwhelmed the travel agency’s web server, resulting in **connection timeouts** and **website unavailability**.  
+The attacker exploited the TCP three-way handshake to exhaust server resources — a classic **SYN Flood Attack**.
 
-Mitigation & Recommendations
-Enable SYN cookies and shorten TCP SYN timeout.
-Apply rate limiting and connection throttling on perimeter devices.
-Deploy IDS/IPS and a DDoS mitigation service (CDN or cloud-based scrubbing).
-Monitor and block malicious IPs temporarily; investigate for IP spoofing or DDoS amplification sources.
+---
+
+## Evidence Summary
+| Observation | Detail |
+|--------------|---------|
+| **Protocol** | TCP |
+| **Target Port** | 443 (HTTPS) |
+| **Source IP** | `203.0.113.0` |
+| **Symptoms** | Half-open connections, 504 Gateway Timeouts |
+| **Captured by** | Packet Sniffer / Wireshark |
+| **Pattern** | Continuous SYN requests with no ACK response |
+
+---
+
+## Impact
+- Website became **unreachable** for employees and customers.  
+- Caused **loss of service availability** and potential **revenue impact**.  
+- Server resources maxed out, leading to **slow response** and **timeouts**.  
+- Potential distraction for **secondary attacks** or **reconnaissance**.
+
+---
+
+## Mitigation & Recommendations
+- **Enable SYN Cookies** to handle half-open connections efficiently.  
+- **Rate-limit incoming SYN requests** using firewalls or load balancers.  
+- Deploy **IDS/IPS** (Intrusion Detection/Prevention Systems).  
+- Use **Cloud DDoS Mitigation Services** like Cloudflare or AWS Shield.  
+- Block or throttle suspicious IPs temporarily.
